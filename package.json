@@ -1,0 +1,17 @@
+{
+    "author"      : "Yosbel Marin",
+    "name"        : "sish",
+    "version"     : "0.1.0",
+    "license"     : "MIT",
+    "description" : "S-ish functional JavaScript",
+    "repository"  : "https://github.com/yosbelms/sish.git",
+
+    "keywords": [
+         "s-expression",
+         "javascript",
+         "functional",
+         "ramda",
+         "underscore",
+         "lodash"
+    ]
+}
