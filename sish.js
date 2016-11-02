@@ -7,9 +7,18 @@
 
 var slice = Array.prototype.slice;
 
-// return a caller binded to a `source` object
-// if no `source` is provided `this` will be used instead
-function sish(source) {
+// return a caller binded to a `src` object
+// if no `src` is provided `this` will be used instead
+function sish(src) {
+    var source = {};
+
+    slice.call(arguments).forEach(function(src) {
+        Object.keys(src).forEach(function(name) {
+            source[name] = (typeof fn === 'function') ?
+                src[name].bind(src) :
+                src[name];
+        })
+    })
 
     // call(Function, args...)
     // executes a function using the provided arguments
@@ -26,7 +35,7 @@ function sish(source) {
 
         return arguments.length === 1 ?
             fn :
-            fn.apply(source || this, slice.call(arguments, 1));
+            fn.apply(this, slice.call(arguments, 1));
     }
 }
 
