@@ -7,12 +7,26 @@
 
 var slice = Array.prototype.slice;
 
+// return a caller binded to a `source` object
+// if no `source` is provided `this` will be used instead
 function sish(source) {
-    return function sish(fname) {
+
+    // call(Function, args...)
+    // executes a function using the provided arguments
+    // call(String, args...)
+    // finds a property with such name in the `source` object and executes it
+    return function call(fname) {
         var
-        fn = (typeof fname === 'string') ? source[fname] : fname;
-        if (typeof fn !== 'function') throw fname + ' is not a function';
-        return fn.apply(source || {}, slice.call(arguments, 1));
+        fn = (typeof fname === 'string') ?
+            source[fname] :
+            fname;
+
+        if (typeof fn !== 'function')
+            throw fname + ' is not a function';
+
+        return arguments.length === 1 ?
+            fn :
+            fn.apply(source || this, slice.call(arguments, 1));
     }
 }
 
