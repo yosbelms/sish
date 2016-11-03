@@ -1,17 +1,27 @@
 (function() {
 
 // S-ish functional JavaScript
-//
 // License: MIT
-// author: Yosbel Marín
+// Author: Yosbel Marín
 
 var slice = Array.prototype.slice;
 
-// return a caller function binded to a `src` object
-// if no `src` is provided `this` will be used instead,
-// if many `src` are provided all functions will be
-// available in the internal `scope` object which will
-// receive all properties of the passed `src`
+// Sish(src: Object): Function
+//
+// Returns a function that calls functions of the provided `src`
+// using the rest of parameters passed, example:
+//
+//     var src = {
+//         log: (msg)=> console.log(msg)
+//     }
+//     var _ = Sish(src)
+//     _('log', 'Calling from Sish')
+//
+// if the name of the function is provided and no more arguments are
+// provided the caller will return a reference to the function, example:
+//
+//     _('log') === src.log
+
 function Sish(src) {
     var prop, scope;
 
@@ -23,10 +33,6 @@ function Sish(src) {
 
     _import(scope, src);
 
-    // call(Function, args...)
-    // executes a function using the provided arguments
-    // call(String, args...)
-    // finds a property with such name in the `scope` object and executes it
     return function call(fname) {
         var
         fn = (typeof fname === 'string') ?
@@ -42,9 +48,14 @@ function Sish(src) {
     }
 }
 
-function _import(scope, src, names) {
-    names = names || Object.keys(src);
-    names.forEach(function(name) {
+// _import(scope: Object, src: Object, propNames?: Array)
+//
+// Copies properties from `src` to `scope` filtered by `propNames`,
+// if `propNames` is not provided all own properties of `src` will be copied
+
+function _import(scope, src, propNames) {
+    propNames = propNames || Object.keys(src);
+    propNames.forEach(function(name) {
         prop = src[name];
         scope[name] = (typeof prop === 'function') ?
             prop.bind(src) :
@@ -53,6 +64,7 @@ function _import(scope, src, names) {
 }
 
 // publish
+
 if (typeof exports === 'object')
     module.exports = Sish;
 else
