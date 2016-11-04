@@ -33,7 +33,7 @@ function Sish(src) {
 
     _import(scope, src);
 
-    return function call(fname) {
+    function call(fname) {
         var
         fn = (typeof fname === 'string') ?
             scope[fname] :
@@ -46,6 +46,9 @@ function Sish(src) {
             fn :
             fn.apply(this, slice.call(arguments, 1));
     }
+
+    call.scope = scope;
+    return call;
 }
 
 // _import(scope: Object, src: Object, propNames?: Array)
