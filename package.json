@@ -6,6 +6,8 @@
     "description" : "S-ish functional JavaScript",
     "repository"  : "https://github.com/yosbelms/sish.git",
 
+    "main"        : "sish.js",
+
     "keywords": [
          "s-expression",
          "javascript",
