@@ -26,8 +26,8 @@ function Sish(src) {
     var prop, scope;
 
     scope = {
-        'import': function(src, names) {
-            _import(scope, src, names);
+        'import': function(src, propNames) {
+            _import(scope, src, propNames);
         }
     };
 
