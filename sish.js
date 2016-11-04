@@ -8,8 +8,14 @@ var slice = Array.prototype.slice;
 
 // Sish(src: Object): Function
 //
-// Returns a function that calls functions of the provided `src`
-// using the rest of parameters passed, example:
+// Returns a Sish instance wich is a function that calls functions
+// contained in its internal scope, previously extracted from `src`,
+// it calls functions using the specified name and the rest of passed parameters.
+// The Sish instance has the following notation:
+//
+//     SishInstance(functionName, params...)
+//
+// Usage example:
 //
 //     var src = {
 //         log: (msg)=> console.log(msg)
@@ -17,10 +23,15 @@ var slice = Array.prototype.slice;
 //     var _ = Sish(src)
 //     _('log', 'Calling from Sish')
 //
-// if the name of the function is provided and no more arguments are
-// provided the caller will return a reference to the function, example:
+// If the name of the function is provided but no more arguments are
+// passed the caller will return a reference to the function,
+// in the example case `_('log')('msg')` and `to src.log('msg')` will
+// do the same
 //
-//     _('log') === src.log
+// The Sish object has a property named `scope` which has all callable functions
+// using that Sish instance, example:
+//
+//     _.scope.log('Logging to console')
 
 function Sish(src) {
     var prop, scope;
@@ -66,7 +77,7 @@ function _import(scope, src, propNames) {
     })
 }
 
-// publish
+// Publish
 
 if (typeof exports === 'object')
     module.exports = Sish;
